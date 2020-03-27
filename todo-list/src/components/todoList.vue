@@ -44,4 +44,10 @@ export default {
     color: #0984e3;
 }
 
+.todo-list {
+    width: 100%;
+    min-height: 50px;
+    background-color: white;
+}
+
 </style>
