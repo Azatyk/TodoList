@@ -4,27 +4,38 @@
         <div class="add-content">
             <div class="add-content__heading">Add new task <span class="add-content__plus-icon"><i class="fas fa-plus-square"></i></span></div>
             <div class="add-content__adding">
-                <input type="text" class="add-content__input" placeholder="Write anything">
+                <input id="addInput" type="text" class="add-content__input" placeholder="Write anything" v-model="inputValue" :class="{'empty': isEmpty}">
                 <div class="add-content__buttos-conntainer">
-                    <button class="add-content__add-button button"><i class="fas fa-check"></i></button>
+                    <button class="add-content__add-button button" @click="addComponent"><i class="fas fa-check"></i></button>
                     <button class="add-content__exit-button button" @click="cancel"><i class="fas fa-times"></i></button>
                 </div>
             </div>
+            <label for="addInput"><p v-if="isEmpty" class="add-content__danger-text">You should write some task here <i class="fas fa-arrow-up"></i></p></label>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: {
-        cancelState: {
-            type: Boolean,
-            requred: true
+    data() {
+        return {
+            inputValue: '',
+            isEmpty: false
         }
     },
+
     methods: {
         cancel: function() {
             this.$emit('cancel')
+        },
+
+        addComponent: function() {
+            if(this.inputValue.trim() != '') {
+                this.$emit('addComponent', this.inputValue)
+                this.inputValue = ''
+            } else {
+                this.isEmpty = true
+            }
         }
     }
 }
@@ -94,6 +105,10 @@ export default {
     outline: none;
 }
 
+.empty {
+    border: 3px solid red;
+}
+
 input::-webkit-input-placeholder { 
     color: #bdc3c7; 
 }
@@ -120,6 +135,13 @@ input::-webkit-input-placeholder {
 
 .add-content__exit-button:hover {
     color: #ff7979;
+}
+
+.add-content__danger-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: red;
+    cursor: pointer;
 }
 
 </style>

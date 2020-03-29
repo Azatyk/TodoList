@@ -1,15 +1,20 @@
 <template>
     <div class="container">
-    <addForm @cancel="cancelForm" :cancelState="cancelState" v-show="cancelState" />
-    <section class="content" :class="{'blur': cancelState}">
+    <addForm @cancel="cancelForm" :cancelState="isCancel" v-show="isCancel"
+    @addComponent="addData" />
+    <section class="content" :class="{'blur': isCancel}">
         <h1 class="content__heading"><i class="fas fa-check"></i>ToDo List</h1>
         <div class="content__list-container">
             <div class="todo-list">
+                <p v-if="data.length == 0" class="todo-list__no-content">There are no any tasks :c. <span class="todo-list__no-content todo-list__add-text" @click="openForm">Add it now!</span></p>
                 <todoComponent  v-for="element in data" :key="element.id" 
-                :text="element.text" />
+                :element="element" 
+                @deleteComponent="deleteData" 
+                v-else />    
             </div>
         </div>
     </section>
+    <button class="form-button button" :class="{'blur': isCancel}" @click="openForm">Add new task</button>
     </div>
 </template>
 
@@ -27,14 +32,26 @@ export default {
 
     data() {
         return {
-            cancelState: true
+            isCancel: false
         }
     },
 
     methods: {
         cancelForm: function() {
-            console.log('Click')
-            this.cancelState = false
+            this.isCancel = false
+        },
+
+        addData: function(inputValue) {
+            this.$emit('addData', inputValue)
+            this.isCancel = false
+        },
+
+        deleteData: function(id) {
+            this.$emit('deleteData', id)
+        },
+
+        openForm: function() {
+            this.isCancel = true
         }
     },
 
@@ -63,6 +80,7 @@ export default {
     height: auto;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
+    transition: 0.3s ease-in-out;
 }
 
 .blur {
@@ -92,6 +110,39 @@ export default {
     min-height: 50px;
     background-color: white;
     border-radius: 30px;
+}
+
+.todo-list__no-content {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.todo-list__add-text {
+    font-style: italic;
+    color: #0984e3;
+    cursor: pointer;
+}
+
+.form-button {
+    position: fixed;
+    top: 12vh;
+    right: 10%;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 600;
+    background: none;
+    border: 3px solid #0984e3;
+    border-radius: 30px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0984e3;
+    border: 3px solid #0984e3;
 }
 
 </style>

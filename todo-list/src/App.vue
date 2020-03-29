@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <todoList :data="db" />
+    <todoList :data="db" 
+    @addData="addData" 
+    @deleteData="deleteData" />
   </div>
 </template>
 
@@ -14,16 +16,22 @@ export default {
 
   data() {
     return {
-      db: [
-        {
-          id: 1,
-          text: "Покушать котлетки"
-        },
-        {
-          id: 2,
-          text: "Покушать шарлотку"
-        }
-      ]
+      lastId: 0,
+
+      db: []
+    }
+  },
+
+  methods: {
+    addData: function(inputValue) {
+      this.db.push({
+        id: this.lastId + 1,
+        text: inputValue
+      })
+    },
+
+    deleteData: function(id) {
+      this.db.splice(id - 1, 1)
     }
   }
 }
