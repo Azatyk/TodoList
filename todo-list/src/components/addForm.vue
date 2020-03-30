@@ -4,7 +4,7 @@
         <div class="add-content">
             <div class="add-content__heading">Add new task <span class="add-content__plus-icon"><i class="fas fa-plus-square"></i></span></div>
             <div class="add-content__adding">
-                <input id="addInput" type="text" class="add-content__input" placeholder="Write anything" v-model="inputValue" :class="{'empty': isEmpty}">
+                <input v-focus id="addInput" type="text" class="add-content__input" placeholder="Write anything" v-model="inputValue" :class="{'empty': isEmpty}">
                 <div class="add-content__buttos-conntainer">
                     <button class="add-content__add-button button" @click="addComponent"><i class="fas fa-check"></i></button>
                     <button class="add-content__exit-button button" @click="cancel"><i class="fas fa-times"></i></button>
@@ -35,6 +35,14 @@ export default {
                 this.inputValue = ''
             } else {
                 this.isEmpty = true
+            }
+        }
+    },
+
+        directives: {
+        focus: {
+            inserted: function(el) {
+            el.focus()
             }
         }
     }

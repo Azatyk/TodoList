@@ -1,16 +1,18 @@
 <template>
-    <div class="component" :class="{'strikethrough-background': isStrikethrough}">
+    <label for="changeInput"><div class="component" :class="{'strikethrough-background': isStrikethrough, 'change': isChange}">
         <div class="component__text-container">
             <span class="component__dash">—</span>
-            <p class="component__paragraph" :class="{'strikethrough-text': isStrikethrough}">{{ this.element.text }}</p>
+            <p class="component__paragraph" :class="{'strikethrough-text': isStrikethrough}" v-if="isChange == false">{{ this.element.text }}</p>
+            <input v-focus id="changeInput" type="text" placeholder="Write something" v-model="inputValue" class="component__input" v-else>
         </div>
         <div class="component__buttons-container">
-            <button class="component__check-button button" v-if="isStrikethrough == false" @click="isStrikethrough = true"><i class="fas fa-check-circle"></i></button>
+            <button class="component__check-button button" v-if="isStrikethrough == false" @click="isStrikethrough = true" :disabled="isChange" :class="{'disabled': isChange}"><i class="fas fa-check-circle"></i></button>
             <button class="component__uncheck-button button" v-else @click="isStrikethrough = false"><i class="fas fa-times-circle"></i></button>
-            <button class="component__change-button button" :disabled="isStrikethrough" :class="{'disabled': isStrikethrough}"><i class="fas fa-edit"></i></button>
+            <button class="component__change-button button" v-if="isChange == false" :disabled="isStrikethrough" :class="{'disabled': isStrikethrough}" @click="isChange = true"><i class="fas fa-edit"></i></button>
+            <button class="component__finish-button button" v-else @click="changeComponent"><i class="fas fa-flag-checkered"></i></button>
             <button class="component__delete-button button" @click="deleteComponent"><i class="fas fa-trash-alt"></i></button>
         </div>
-    </div>
+    </div></label>
 </template>
 
 <script>
@@ -24,13 +26,20 @@ export default {
 
     data() {
         return {
-            isStrikethrough: false
+            isStrikethrough: false,
+            isChange: false,
+            inputValue: this.element.text
         }
     },
 
     methods: {
         deleteComponent: function() {
             this.$emit('deleteComponent', this.element.id)
+        },
+
+        changeComponent: function() {
+            this.isChange = false
+            this.$emit('changeComponent', [this.element.id, this.inputValue])
         }
     }
 }
@@ -48,9 +57,15 @@ export default {
     background-color: #0984e3;
     border-radius: 30px;
     transition: 0.2s ease-in-out;
+    cursor: text;
+}
+
+.change {
+    background-color: #f39c12;
 }
 
 .component__text-container {
+    width: 90%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -64,6 +79,19 @@ export default {
 
 .component__paragraph {
     color: #dff9fb;
+}
+
+.component__input {
+    width: 95%;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    color: #dff9fb;
+    background: none;
+    outline: none;
+}
+
+input::-webkit-input-placeholder { 
+    color: #bdc3c7; 
 }
 
 .component__buttons-container {
@@ -109,6 +137,10 @@ export default {
 
 .disabled:hover {
     color: #95a5a6;
+}
+
+.component__finish-button:hover {
+    color: #2ecc71;
 }
 
 .component__delete-button:hover {

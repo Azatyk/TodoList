@@ -2,7 +2,8 @@
   <div id="app">
     <todoList :data="db" 
     @addData="addData" 
-    @deleteData="deleteData" />
+    @deleteData="deleteData" 
+    @changeData="changeData" />
   </div>
 </template>
 
@@ -28,10 +29,16 @@ export default {
         id: this.lastId + 1,
         text: inputValue
       })
+      this.lastId++
     },
 
     deleteData: function(id) {
       this.db.splice(id - 1, 1)
+    },
+
+    changeData(changeElementArray) {
+      this.db[changeElementArray[0] - 1].text = changeElementArray[1]
+      console.log(changeElementArray[0])
     }
   }
 }

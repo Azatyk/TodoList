@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-    <addForm @cancel="cancelForm" :cancelState="isCancel" v-show="isCancel"
+    <addForm @cancel="cancelForm" :cancelState="isCancel" v-if="isCancel"
     @addComponent="addData" />
     <section class="content" :class="{'blur': isCancel}">
         <h1 class="content__heading"><i class="fas fa-check"></i>ToDo List</h1>
@@ -9,7 +9,8 @@
                 <p v-if="data.length == 0" class="todo-list__no-content">There are no any tasks :c. <span class="todo-list__no-content todo-list__add-text" @click="openForm">Add it now!</span></p>
                 <todoComponent  v-for="element in data" :key="element.id" 
                 :element="element" 
-                @deleteComponent="deleteData" 
+                @deleteComponent="deleteData"
+                @changeComponent="changeData" 
                 v-else />    
             </div>
         </div>
@@ -48,6 +49,10 @@ export default {
 
         deleteData: function(id) {
             this.$emit('deleteData', id)
+        },
+
+        changeData: function(changeElementArray) {
+            this.$emit('changeData', changeElementArray)
         },
 
         openForm: function() {
@@ -137,6 +142,7 @@ export default {
     border: 3px solid #0984e3;
     border-radius: 30px;
     transition: 0.3s ease-in-out;
+    outline: none;
     cursor: pointer;
 }
 
