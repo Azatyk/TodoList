@@ -40,6 +40,9 @@ export default {
         changeComponent: function() {
             this.isChange = false
             this.$emit('changeComponent', [this.element.id, this.inputValue])
+            // console.log(this.element.id, this.inputValue)
+            // console.log('Type of id:', typeof this.element.id)
+            // console.log('Type of input value:', typeof this.inputValue)
         }
     }
 }

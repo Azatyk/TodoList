@@ -33,12 +33,23 @@ export default {
     },
 
     deleteData: function(id) {
-      this.db.splice(id - 1, 1)
+      for(let i = 0; i < this.db.length; i++) {
+        if(this.db[i].id == id) {
+          this.db.splice(i, 1)
+        }
+      }
     },
 
     changeData(changeElementArray) {
-      this.db[changeElementArray[0] - 1].text = changeElementArray[1]
-      console.log(changeElementArray[0])
+      for(let i = 0; i < this.db.length; i++) {
+        if(this.db[i].id == changeElementArray[0])  {
+          this.db[i].text = changeElementArray[1]
+        }
+      }
+      console.log('changeData' + changeElementArray[0])
+      console.log('Changing data:', changeElementArray)
+      console.log('Type of recieving id:', typeof changeElementArray[0])
+      console.log('Type of recieving text', typeof changeElementArray[1])
     }
   }
 }

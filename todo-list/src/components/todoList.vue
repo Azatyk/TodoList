@@ -53,6 +53,8 @@ export default {
 
         changeData: function(changeElementArray) {
             this.$emit('changeData', changeElementArray)
+            // console.log('Now changing data in todoList:')
+            // console.log(changeElementArray)
         },
 
         openForm: function() {
@@ -71,7 +73,7 @@ export default {
 <style scoped>
 
 .container {
-    width: 100%;
+    min-width: 100%;
     padding: 0.1px;
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
