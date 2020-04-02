@@ -75,7 +75,8 @@ export default {
 .container {
     min-width: 100%;
     padding: 0.1px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     font-family: 'Open Sans', sans-serif;
     background-color: #ffbe76;
 }
@@ -109,6 +110,7 @@ export default {
 
 .todo-list {
     margin-top: 10vh;
+    margin-bottom: 20px;
     padding-top: 25px;
     padding-bottom: 5px;
     padding-left: 20px;

@@ -1,14 +1,16 @@
 <template>
     <div class="add">
-        <div class="black-layer"></div>
+        <div class="black-layer" @click="cancel"></div>
         <div class="add-content">
             <div class="add-content__heading">Add new task <span class="add-content__plus-icon"><i class="fas fa-plus-square"></i></span></div>
             <div class="add-content__adding">
+                <form action="#" method="POST" class="add-content__form">
                 <input v-focus id="addInput" type="text" class="add-content__input" placeholder="Write anything" v-model="inputValue" :class="{'empty': isEmpty}">
-                <div class="add-content__buttos-conntainer">
-                    <button class="add-content__add-button button" @click="addComponent"><i class="fas fa-check"></i></button>
-                    <button class="add-content__exit-button button" @click="cancel"><i class="fas fa-times"></i></button>
-                </div>
+                    <div class="add-content__buttos-conntainer">
+                        <button class="add-content__add-button button" @click="addComponent" type="submit"><i class="fas fa-check"></i></button>
+                        <button class="add-content__exit-button button" @click="cancel"><i class="fas fa-times"></i></button>
+                    </div>
+                </form>
             </div>
             <label for="addInput"><p v-if="isEmpty" class="add-content__danger-text">You should write some task here <i class="fas fa-arrow-up"></i></p></label>
         </div>
@@ -52,18 +54,19 @@ export default {
 <style scoped>
 
 .add {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
 }
 
 .black-layer {
     position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: black;
     opacity: 0.8;
     z-index: 1;
@@ -94,13 +97,17 @@ export default {
 }
 
 .add-content__adding {
+    width: 100%;    
+}
+
+.add-content__form {
     margin-top: 30px;
     margin-bottom: 15px;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between;;
 }
 
 .add-content__input {
